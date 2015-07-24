@@ -6,7 +6,7 @@
         <img src='{!URLFOR($Resource.Logo4567687)}' title="logo" />
     </td>
     <td  align="right"><font face="Arial" >
-    <b>Quote  for {!Order.Account.Name}</b></font><br/>
+    <b>{!Order.Type_of_doc_title__c}  for {!Order.Account.Name}</b></font><br/>
     </td>
     
     
@@ -26,7 +26,7 @@
     <td width="20%">&nbsp;</td>
            <td ><font face="Arial">Our Order number: {!Order.OrderNumber}<br/>
            Your Order number: {!Order.Customer_order_number__c}<br/>
-
+            Order Date: <apex:outputText value="{0,date,dd'/'MM'/'yyyy}"><apex:param value="{!Order.EffectiveDate}"/></apex:outputText>
         <br/>
         Authorised by:&nbsp;{!Order.CustomerAuthorizedBy.FirstName} {!Order.CustomerAuthorizedBy.LastName}</font>
      </td>
@@ -45,15 +45,15 @@
 <tr>
        <td>          
            <font face="Arial">Bill To:<br/>
-                             {!Order.Account.BillingStreet}<br/>
-                             {!Order.Account.BillingPostalCode} {!Order.Account.BillingCity}
+                             {!Order.BillingStreet}<br/>
+                             {!Order.BillingPostalCode} {!Order.BillingCity}
            </font>
         </td>
         <td width="50%"></td>
         <td >
            <font face="Arial">Ship To:<br/>
-                              {!Order.Account.ShippingStreet}<br/>
-                              {!Order.Account.ShippingPostalCode} {!Order.Account.ShippingCity}
+                              {!Order.ShippingStreet}<br/>
+                              {!Order.ShippingPostalCode} {!Order.ShippingCity}
            </font>
         </td>
 </tr>    
@@ -65,6 +65,7 @@
 <tr>
        <td bgcolor="#C0C0C0"><font face="Arial">Product</font></td>
        <td bgcolor="#C0C0C0"><font face="Arial">Description</font></td>
+       <td bgcolor="#C0C0C0"><font face="Arial">Date</font></td>
        <td bgcolor="#C0C0C0"><font face="Arial">Quantity</font></td>
        <td bgcolor="#C0C0C0"><font face="Arial">Unit Price</font></td>
        <td bgcolor="#C0C0C0"><font face="Arial">Total Price</font></td>
@@ -74,6 +75,7 @@
           <tr>
              <td>{!line.PricebookEntry.Name}</td>
              <td>{!line.Description}</td>
+             <td><apex:outputText value="{0,date,dd'/'MM'/'yyyy}"><apex:param value="{!line.Date_of_training__c}"/></apex:outputText></td>
              <td>{!line.Quantity}</td>
              <td><apex:OutputField value="{!line.UnitPrice}"/></td>
              <td><apex:OutputField value="{!line.Total_price__c}"/></td>
@@ -86,19 +88,24 @@
 </tr>
 </table>
 <br/>
+<apex:outputText rendered="{!order.Type_of_invoice__c}">
 <hr/>
 <p><b><font color="#000080" face="Arial">Terms and Conditions</font></b></p>
 <table border="0" width="100%" id="table3">
 <tr>
         <td><font face="Arial">
-        
-              TERMS and Conditions in here
+To avoid any delays in processing, please include a copy of the invoice with payment or the invoice number as reference when paying via the bank.<br/>
+<strong>Payment must be received 2 weeks before the commencement of training and before the  issuing of goods.</strong><br/>
+Cheques can be made payable to Parents Plus Ltd. 
+
             </font>
         </td>
 </tr>
 </table>
 <br/>
+</apex:outputText>
 <hr/>
+<apex:outputText rendered="{!order.Proforma_Invoice__c}">
 <table width="100%" id="table5">
 <tr>
    <td width="50%"><b>{!$Organization.Name}</b></td>
@@ -125,7 +132,39 @@
    <td width="50%">Date<hr color="black" size="1"/></td>
 </tr>
 </table>
-<p>&nbsp;</p>
+</apex:outputText>
+<apex:outputText rendered="{!order.Type_of_invoice__c}">
+<table>
+    <tr>
+        <td>NAME OF ACCOUNT</td>
+        <td>Parents Plus Ltd</td>
+    </tr>
+    <tr>
+        <td>NAME OF BANK</td>
+        <td>Allied Irish Bank</td>
+    </tr>
+    <tr>
+         <td>ADDRESS</td>
+         <td>100/101 Grafton St Dublin 2.</td>
+    </tr>
+     <tr>
+        <td>ACCOUNT NO</td>
+        <td>51375-096</td>
+     </tr>
+     <tr>
+         <td>SORT CODE</td>
+         <td>93-10-47</td>
+     </tr>
+     <tr>
+         <td>IBAN</td>
+         <td>IE05 AIBK 9310 4751 3750 96</td>
+     </tr>
+     <tr>
+        <td>BIC</td>
+        <td>AIBKIE2D</td>
+    </tr>
+ </table>
+ </apex:outputText>
 <hr/>
-<p align="center"><font face="Arial"><i>Copyright {!$Organization.Name}.</i></font></p>
+<p align="center"><font face="Arial"><i>Parents Plus Limited is a Company Limited by Guarantee not having a shared capital.  Registered in Ireland No 530105.  CHY No 13664</i></font></p>
 </apex:page>
